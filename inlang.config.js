@@ -13,6 +13,10 @@ export async function defineConfig(env) {
     pathPattern: "./po/{language}.po",
     referenceResourcePath: "./po/goaccess.pot",
   };
+  
+  const { default: standardLintRules } = await env.$import(
+    "https://cdn.jsdelivr.net/gh/inlang/standard-lint-rules@1.1.1/dist/index.js"
+  );
 
   return {
     // if your project use a pot file use the pot as the reference Language
@@ -29,6 +33,9 @@ export async function defineConfig(env) {
       plugin.readResources({ ...args, ...env, pluginConfig }),
     writeResources: (args) =>
       plugin.writeResources({ ...args, ...env, pluginConfig }),
+    lint: {
+      rules: [standardLintRules()],
+    },
   };
 }
 
